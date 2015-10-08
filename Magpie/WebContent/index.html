@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<script>
+
+	function fun1() {
+		var inputvalue = document.getElementById("input1").value;
+		//alert("inputvalue");
+		inputvalue = document.getElementsByName("aa").item(0).value;
+		//alert(inputvalue);
+		
+		
+	
+	var board = document.getElementById("div2");
+		var e = document.createElement("input");
+		e.type = "button";
+		e.value = "这是测试加载的小例子";
+		var object = board.appendChild(e);
+
+		/////////////
+
+		var element = document.createElement("a");
+		element.setAttribute("href", "http://"+inputvalue);
+
+		element.innerHTML = inputvalue;
+		//$(element).html('<tr><td>IE下tbody的innerHTML是只读的</td></tr>');
+		//$("body").html('<tr><td>IE下tbody的innerHTML是只读的</td></tr>');
+		//alert("1");
+
+		//$("<div><p>Hello</p></div>").appendTo("#body");
+		//$('<div />',{id:citycode,html: '<a href="">cityname</a>'}).appendTo("#"+provincecode);
+
+		var div2 = document.getElementById("div2");
+		div2.appendChild(element);
+		//myrefresh();
+		alert("inputvalue");
+	}
+
+	function myrefresh() {
+		window.location.reload();
+	}
+	//setTimeout('myrefresh()',1000); //指定1秒刷新一次
+</script>
+<body>
+
+<div class="col-md-4 search-box panel panel-default" id="baiduPanel">
+				<div class="panel-body search-box-body">
+					<div class="row">
+						<div class="baidu-form">
+							<form id="form_baidu" role="form" class="form-inline" target="_blank" action="http://www.baidu.com/s" method="get">
+								<div><input type="text" class="form-control input-box" id="wd" name="wd" placeholder="请输入关键词搜索"></div>
+								<div class="baidu-logo"><img src="images/baidu-logo.png"><input type="submit" id="button" class="btn  btn-success " value="百度一下"></div>
+								<input id="tn" type="hidden" value="70049059_zhj_zd" name="tn">
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+</body>
+</html>
