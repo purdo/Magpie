@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+<script type="text/javascript">
+if(1){//window.ActiveXObject){
+	var doc=new ActiveXObject("Microsoft.XMLDOM");
+	doc.async="false";//代表是否异步加载xml文件
+	doc.load("test2.xml");
+}else{
+	var parser=new DOMParser();
+	var doc=parser.parseFromString("test2.xml","text/xml");
+}
+alert("显示XML文档");
+alert(doc.xml);
+alert("显示标题信息");
+var x=doc.getElementsByTagName('标题');
+for(i=0;i<x.length;i++){
+document.write(x[i].childNodes[0].nodeValue);//(x[i].chileNodes[0].nodeValue);
+document.write("<br />");
+}
+alert("添加新节点图书");
+var x1=doc.getElementsByTagName('图书');
+var newel,newtest;
+for(i=0;i<x1.length;i++){
+	newel=doc.createElement('出版社');
+	newtext=doc.createTextNode('清华出版社');
+	newel.appendChild(newtext);
+	x[i].appendChild(newel);
+}
+alert(doc.xml);
+</script>
+</body>
