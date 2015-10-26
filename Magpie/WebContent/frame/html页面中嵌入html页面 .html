@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+
+1、Iframe：
+
+<iframe src="top1.html" frameBorder="0" width="900" scrolling="no" height="90"></iframe>
+
+2、Behavior的download方式
+
+<span id=show></span>
+<IE:Download ID="oDownload" STYLE="behavior:url(#default#download)" />
+<script> 
+function onDownloadDone(downDate){
+showImport.innerHTML=downDate
+} 
+oDownload.startDownload('b.htm',onDownloadDone)
+</script>
+
+
+
+
+URL：http://www.cnblogs.com/skylaugh/archive/2007/01/09/615607.html
+
+</body>
+</html>
