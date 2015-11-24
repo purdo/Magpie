@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>遮罩层窗口</title>
+<!-- <script  type="text/javascript"  src="js/jquery-1.8.0.js"></script> -->
+<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+
+<script type="text/javascript">//JavaScript Document
+$(function(){
+		var sb = $(".shadebg"); //遮罩层对象
+		var form = $(".layer_1"); //表单对象
+		var move = $(".move");
+		var dw = $(document).width(); //文档的宽度
+		var dh = $(document).height(); //文档的宽度
+		var bw = document.documentElement.clientWidth; //浏览器显示内容区域宽度
+		var bh=document.documentElement.clientHeight; //浏览器显示内容区域高度
+		var st;//滚动条相对顶部位置
+		var sl;//滚动条相对左端位置
+		var ft;// 表单窗口相对浏览器上沿距离
+		var fl;//表单窗口相对浏览器左边距
+		
+		/**设置表单窗口位置*/
+		
+		var fh = form.height(); //表单高度
+		var fw=form.width();//表单宽度
+		ft = bh / 2 - fh / 2; //设定表单窗口初始位置居中
+		fl = bw/2-fw/2;
+		form.css({top:ft,left:fl});
+		var lmx;//光标位置
+		var lmy;
+
+		//按下鼠标后绑定鼠标移动事件，再绑定鼠标松开事件
+		move.bind("mousedown", function(e) {
+			move.unbind("mousemove"); //点击的时候先去掉鼠标拖动事件
+
+			lmx = e.pageX; //获取鼠标当前位置
+
+			lmy = e.pageY;
+			var lft = form.offset().top; //获取表单的当前位置
+			var lfl=form.offset().left;
+			move.bind("mousemove", function(e) {
+
+				cmx = e.pageX; //鼠标当前移动位置
+				cmy = e.pageY;
+				var x = cmx - lmx; //获得两次鼠标坐标之差
+				var y = cmy - lmy;
+				var cft = lft + y;
+				var cfl = lfl + x;
+				if (cft < 0 || cft == 0)
+					cft = 0;
+				if (cft + fh > dh || cft + fh == dh)
+					cft = dh - fh;
+				if (cfl < 0 || fl == 0)
+					cfl = 0;
+				if (cfl + fw > bw || cfl + fw == bw)
+					cfl = bw - fw;
+				form.css({
+					top : cft,
+					left : cfl
+				});
+
+				$(".layer_2").html(
+						"<div>按下鼠标位置：lmx:" + lmx + ";lmy:" + lmy
+								+ "</div><div>鼠标当前位置：cmx:" + cmx + ";cmy:"
+								+ cmy + "</div><div>两次差值：x:" + x + ";y:" + y
+								+ "</div><div>移动前的top与left：top:" + lft
+								+ ";left:" + lfl
+								+ "</div><div>移动后的top与left：top:" + cft
+								+ ";left:" + cfl + "</div>"
+								);
+			});
+			move.bind("mouseup", function() {
+				move.unbind("mousemove");
+			});
+		})
+
+		/**改变窗口大小或者滚动滚动条时重新设定遮罩层与表单窗口的位置**/
+
+		function resetBg() {
+			bw = document.documentElement.clientWidth; //浏览器显示内容区域	宽度
+			bh = document.documentElement.clientHeight; //浏览器显示内容区域高
+			st = document.documentElement.scrollTop; //滚动条相对浏览器显示区域顶部高度
+
+			sl = document.documentElement.scrollLeft; //滚动条相对浏览器显示区域左侧宽
+			sb.css({
+				width : bw,
+				height : bh,
+				top : st,
+				left : sl
+			}); //重新设定遮罩层高宽及top与left定位
+			ft=bh/2-fh/2+st;//设定表单窗口初始位置居中
+			fl = bw / 2 - fw / 2 + sl; 
+			//form.css({top:ft,left:fl});
+
+		}
+
+		$(window).scroll(function() {
+			resetBg()
+		}); //滚动条滚动时改遮罩层
+		
+		$(window).resize(function(){resetBg()});//浏览器窗口大小改变时改变遮罩层
+
+		
+		$("#button").click(function() {
+			sb.css({
+				width : bw,
+				height : bh,
+				display : "block"
+			});
+			form.css({
+				display : "block"
+			});
+		});
+		$(".close").bind("click", function() {
+			sb.css("display", "none");
+
+			form.css("display", "none");
+
+		});
+
+	})
+</script>
+</head>
+
+<style type="text/css">
+
+html, body, form input {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	//background-color:#006;
+}
+
+.shadebg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: rgba(10, 10, 0, 0.3);
+	display: none;
+	z-index: 2;
+}
+
+div.layer_1 {
+	position: absolute;
+	top: 100px;
+	left: 400px;
+	width: 400px;
+	height: 260px;
+	background-color: #00C;
+	border: solid 1px  #00F;
+	display: none;
+	z-index: 3;
+}
+
+
+div.move {
+	height: 20px;
+	width: 360px;
+	cursor: move;
+	text-align: left;
+	font-size: 14px;
+	color: #FFF;
+	float: left;
+	padding: 8px 0 0 5px;
+}
+
+div.close {
+	cursor: pointer;
+	width: 30px;
+	height: 28px;
+	color: #FFF;
+	font-size: 25px;
+	float: right;
+	padding: 2px 0 0 0;
+	text-align: center;
+	
+}
+
+div.layer_2 {
+	width: 400px;
+	height: 200px;
+	background-color: #FFF;
+	position: absolute;
+	top: 30px;
+	left: -1px;
+	border: solid 1px  #00F;
+}
+.clear{
+	float: none;
+	 clear: both;
+}
+</style>
+
+<body>
+
+	<input type="button" value="遮罩" id="button" />
+	
+	<div class="shadebg"></div>
+	<div class="layer_1">
+		<div class="move">鼠标按下可移动</div>
+		<div class="close">&times;</div>
+		<div class="clear"></div>
+		<div class="layer_2">
+			<form action="#" method="post" name="form"></form>
+		</div>
+	</div>
+</body>
+
+</html>
+
+
+
+			
+	
