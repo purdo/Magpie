@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="ajax/xmlHttp.js"></script>
+</head>
+<body>
+
+
+<script type="text/javascript">
+
+
+ ajaxGetData("GET","query.do",null,show);
+
+
+function show(xmlDoc){
+	if(xmlDoc==null) return;
+	var messageArea=document.getElementById("dataMessage");
+	var webPage=xmlDoc.getElementsByTagName("webPage");
+	var ul=messageArea.getElementsByTagName("ul")[0];
+	removeAllChild(ul);
+	for(var i=0;i<webPage.length;i++){
+		var title=webPage[i].getElementsByTagName("title")[0].firstChild.data;
+		var keywords=webPage[i].getElementsByTagName("keywords")[0].firstChild.data;
+		var description=webPage[i].getElementsByTagName("description")[0].firstChild.data;
+		var URI=webPage[i].getElementsByTagName("URI")[0].firstChild.data;
+		var URL=webPage[i].getElementsByTagName("URL")[0].firstChild.data;
+		var URN=webPage[i].getElementsByTagName("URN")[0].firstChild.data;
+		var createTime=webPage[i].getElementsByTagName("createTime")[0].firstChild.data;
+		var editTime=webPage[i].getElementsByTagName("editTime")[0].firstChild.data;
+		
+		var li=document.createElement("li")
+		li.setAttribute("style","list-style:none;");
+		ul.appendChild(li);
+		
+		
+		var article=document.createElement("article");
+		article.setAttribute("onmouseover","this.lastChild.removeAttribute('hidden')");
+		article.setAttribute("onmouseout","this.lastChild.setAttribute('hidden',true)");
+		li.appendChild(article);
+		
+		
+		var aNode=document.createElement("a");
+		aNode.href = URL;
+		aNode.innerHTML = title;
+		var h3=document.createElement("h5");
+		h3.appendChild(aNode);
+		article.appendChild(h3);
+		
+		var div=document.createElement("div");
+		div.setAttribute("hidden","1")
+		var ebutton=document.createElement("button");
+		ebutton.setAttribute("type","button");
+		//ebutton.setAttribute("hidden","1");
+		ebutton.innerHTML='修改';
+		div.appendChild(ebutton);
+		
+		var delbutton=document.createElement("button");
+		delbutton.setAttribute("type","button");
+		//delbutton.setAttribute("hidden","1");
+		delbutton.innerHTML='删除';
+		div.appendChild(delbutton);
+		article.appendChild(div);
+		
+	}
+	
+}
+
+//删除所有的子节点信息
+
+function removeAllChild(element) {
+	while (element.hasChildNodes()) {
+		element.removeChild(element.firstChild);
+	}
+}
+
+
+
+</script>
+
+
+
+	<fieldset class="EditField">
+		<legend>区域主题</legend>
+		<div id="dataMessage">
+			<nav>
+				<ul></ul>
+			</nav>
+		</div>
+	</fieldset>
+
+
+
+
+
+	<article>
+		<h1>My Fruit</h1>
+		<object>
+			<param name="allowFullScreen" value="true">
+
+			<!-- <embed src="#" width="600" height="395"></embed> -->
+
+		</object>
+
+	</article>
+
+
+
+
+<div class="js_manage s-sicon site-manage" title="添加网址"></div>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
